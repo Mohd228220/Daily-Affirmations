@@ -4,7 +4,85 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daily Uplift</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root {
+      --bg-light: linear-gradient(120deg, #f6e0b5, #eea990);
+      --bg-dark: linear-gradient(120deg, #1a1a2e, #2e2e2e);
+      --text-light: #66545e;
+      --text-dark: #f6e0b5;
+      --primary: #aa6f73;
+      --primary-dark: #66545e;
+      --button-dark-bg: #2e2e2e;
+      --button-dark-text: #f6e0b5;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 1rem;
+      transition: background 0.5s, color 0.5s;
+      position: relative;
+    }
+
+    body.dark-mode {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.5rem;
+      font-style: italic;
+    }
+
+    .dark-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    body.dark-mode button {
+      background: var(--button-dark-bg);
+      color: var(--button-dark-text);
+    }
+
+    #share-options {
+      margin-top: 1rem;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div class="dark-toggle" onclick="toggleDarkMode()">🌓</div>
@@ -12,7 +90,7 @@
   <h1>Quote of the day...</h1>
   <p id="affirmation">You are amazing!</p>
 
-  <div class="buttons-container">
+  <div>
     <button onclick="switchCategory('motivational')">Motivational</button>
     <button onclick="switchCategory('inspirational')">Inspirational</button>
     <button onclick="switchCategory('gratitude')">Gratitude</button>
@@ -21,13 +99,99 @@
     <button onclick="toggleShareOptions()">📤 Share</button>
   </div>
 
-  <div id="share-options" class="hidden">
+  <div id="share-options">
     <button onclick="shareTo('twitter')">Twitter</button>
     <button onclick="shareTo('facebook')">Facebook</button>
     <button onclick="shareTo('instagram')">Instagram</button>
     <button onclick="shareTo('threads')">Threads</button>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const categories = {
+      motivational: [
+        "You are strong and capable.",
+        "Today is full of opportunities.",
+        "You are enough just as you are.",
+        "Success flows to you with ease.",
+        "You radiate positivity and courage."
+      ],
+      inspirational: [
+        "Dream big and dare to fail.",
+        "Your only limit is your mind.",
+        "Every day is a second chance.",
+        "Turn your wounds into wisdom.",
+        "The best time for new beginnings is now."
+      ],
+      gratitude: [
+        "Be thankful for what you have.",
+        "Gratitude turns what we have into enough.",
+        "Appreciate the little things.",
+        "Count your blessings, not your problems.",
+        "Gratitude brings peace."
+      ],
+      selfCare: [
+        "Taking care of yourself is productive.",
+        "You deserve rest and care.",
+        "Listen to your needs.",
+        "Self-care is not selfish.",
+        "Nurture your body, mind, and soul."
+      ]
+    };
+
+    let currentCategory = 'motivational';
+
+    function getRandomQuote() {
+      const quotes = categories[currentCategory];
+      return quotes[Math.floor(Math.random() * quotes.length)];
+    }
+
+    function updateAffirmation() {
+      document.getElementById('affirmation').innerText = getRandomQuote();
+    }
+
+    function switchCategory(category) {
+      currentCategory = category;
+      updateAffirmation();
+    }
+
+    function refreshQuote() {
+      updateAffirmation();
+    }
+
+    function toggleShareOptions() {
+      const menu = document.getElementById('share-options');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function shareTo(platform) {
+      const quote = encodeURIComponent(document.getElementById('affirmation').innerText);
+      let url = '';
+      switch (platform) {
+        case 'twitter':
+          url = `https://twitter.com/intent/tweet?text=${quote}`;
+          break;
+        case 'facebook':
+          url = `https://www.facebook.com/sharer/sharer.php?quote=${quote}`;
+          break;
+        case 'instagram':
+          alert('Instagram does not support direct quote sharing. Redirecting to Instagram.');
+          url = 'https://www.instagram.com/';
+          break;
+        case 'threads':
+          alert('Threads does not support direct quote sharing. Redirecting to Threads.');
+          url = 'https://www.threads.net/';
+          break;
+      }
+      window.open(url, '_blank');
+      // Hide share options after selection
+      toggleShareOptions();
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    updateAffirmation();
+  </script>
 </body>
 </html>
