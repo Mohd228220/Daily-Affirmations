@@ -1,0 +1,84 @@
+:root {
+  --bg-light: linear-gradient(120deg, #f6e0b5, #eea990);
+  --bg-dark: linear-gradient(120deg, #1a1a2e, #2e2e2e);
+  --text-light: #66545e;
+  --text-dark: #f6e0b5;
+  --primary: #aa6f73;
+  --primary-dark: #66545e;
+  --button-dark-bg: #2e2e2e;
+  --button-dark-text: #f6e0b5;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg-light);
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 1rem;
+  transition: background 0.5s, color 0.5s;
+  position: relative;
+}
+
+body.dark-mode {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: 1.5rem;
+  font-style: italic;
+}
+
+.dark-toggle {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.buttons-container {
+  margin-top: 1rem;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+body.dark-mode button {
+  background: var(--button-dark-bg);
+  color: var(--button-dark-text);
+}
+
+#share-options {
+  margin-top: 1rem;
+}
+
+.hidden {
+  display: none;
+}
