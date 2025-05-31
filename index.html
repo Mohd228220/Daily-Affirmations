@@ -82,13 +82,20 @@
       margin-top: 1rem;
       display: none;
     }
+
+    #spotify-player {
+      margin-top: 1rem;
+      max-width: 400px;
+      width: 40%;
+    }
   </style>
 </head>
 <body>
   <div class="dark-toggle" onclick="toggleDarkMode()">🌓</div>
 
-  <h1>A timeless truth:.</h1>
+  <h1>A timeless truth:</h1>
   <p id="affirmation">You are amazing!</p>
+
 
   <div>
     <button onclick="switchCategory('motivational')">Motivational</button>
@@ -105,6 +112,22 @@
     <button onclick="shareTo('instagram')">Instagram</button>
     <button onclick="shareTo('threads')">Threads</button>
   </div>
+    <!-- Music Button -->
+  <button id="music-btn">🎵 Music</button>
+
+  <!-- Hidden Spotify Playlist iframe -->
+  <div id="spotify-player" style="display:none;">
+    <iframe
+      style="border-radius:12px"
+      src="https://open.spotify.com/embed/playlist/7q0Ggky9mGVX149mZtVO5l?utm_source=generator"
+      width="100%"
+      height="152"
+      frameborder="0"
+      allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+  </div>
+
 
   <script>
     const categories = {
@@ -183,13 +206,29 @@
           break;
       }
       window.open(url, '_blank');
-      // Hide share options after selection
       toggleShareOptions();
     }
 
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
     }
+
+    // Music button toggle & stop logic
+    const musicBtn = document.getElementById('music-btn');
+    const spotifyPlayer = document.getElementById('spotify-player');
+    const iframe = spotifyPlayer.querySelector('iframe');
+
+    musicBtn.addEventListener('click', () => {
+      if (spotifyPlayer.style.display === 'none') {
+        spotifyPlayer.style.display = 'block';
+        musicBtn.innerText = '⏸️ Pause Music';
+        iframe.src = "https://open.spotify.com/embed/playlist/7q0Ggky9mGVX149mZtVO5l?utm_source=generator";
+      } else {
+        spotifyPlayer.style.display = 'none';
+        musicBtn.innerText = '🎵 Music';
+        iframe.src = "";
+      }
+    });
 
     updateAffirmation();
   </script>
